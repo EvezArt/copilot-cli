@@ -113,7 +113,8 @@ echo "Configuration:"
 if [ -n "$SEED" ]; then
   echo "  Seed:        $SEED"
 else
-  # Generate a random seed if not provided
+  # Generate a random seed if not provided (range: 0-32767)
+  # Note: $RANDOM provides values 0-32767. For more entropy, users should provide an explicit seed.
   SEED=$RANDOM
   echo "  Seed:        $SEED (auto-generated)"
 fi
@@ -183,15 +184,19 @@ echo "Summary:"
 echo "  Total iterations:     $ITERATIONS"
 echo "  Successful:           $SUCCESSFUL"
 echo "  Failed:               $FAILED"
-echo "  Success rate:         $(awk "BEGIN {printf \"%.2f\", ($SUCCESSFUL / $ITERATIONS) * 100}")%"
+# Calculate success rate using bash arithmetic (avoiding awk)
+SUCCESS_RATE_INT=$((SUCCESSFUL * 10000 / ITERATIONS))
+echo "  Success rate:         $((SUCCESS_RATE_INT / 100)).$((SUCCESS_RATE_INT % 100))%"
 echo "  Convergence score:    $CONVERGENCE_SCORE"
 if [ -n "$CONSTRAINT" ]; then
   echo "  Constraint applied:   $CONSTRAINT"
 fi
 echo ""
 echo "Time-symmetric properties:"
-echo "  Forward consistency:  $(awk "BEGIN {printf \"%.3f\", $SEED / 100000.0 + 0.5}")"
-echo "  Backward correlation: $(awk "BEGIN {printf \"%.3f\", (1 - $SEED / 100000.0) * 0.8 + 0.1}")"
+# Use modulo to ensure seed values stay within valid range (0.0-1.0) for calculations
+NORMALIZED_SEED=$((SEED % 100000))
+echo "  Forward consistency:  $(awk "BEGIN {printf \"%.3f\", ($NORMALIZED_SEED / 100000.0) * 0.5 + 0.5}")"
+echo "  Backward correlation: $(awk "BEGIN {printf \"%.3f\", (1 - $NORMALIZED_SEED / 100000.0) * 0.5 + 0.5}")"
 echo ""
 echo "======================================================================"
 echo ""
