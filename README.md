@@ -136,7 +136,7 @@ The `temporal.sh` helper script is available in the GitHub Copilot CLI repositor
 
 **For users who installed via package managers** (winget, brew, npm):
 ```bash
-# Download the script from the repository
+# Download the script from the repository (after PR is merged to main)
 curl -fsSL https://raw.githubusercontent.com/github/copilot-cli/main/temporal.sh -o temporal.sh
 chmod +x temporal.sh
 ```

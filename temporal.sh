@@ -114,7 +114,7 @@ if [ -n "$SEED" ]; then
   echo "  Seed:        $SEED"
 else
   # Generate a random seed if not provided
-  SEED=$((RANDOM * 32768 + RANDOM))
+  SEED=$RANDOM
   echo "  Seed:        $SEED (auto-generated)"
 fi
 echo "  Iterations:  $ITERATIONS"
@@ -155,7 +155,15 @@ for ((i=1; i<=ITERATIONS; i++)); do
   
   # Show progress every 10% if verbose
   if [ "$VERBOSE" = true ]; then
-    if [ $((i % (ITERATIONS / 10))) -eq 0 ] || [ $i -eq $ITERATIONS ]; then
+    # For small iteration counts, show progress at different intervals
+    if [ $ITERATIONS -ge 10 ]; then
+      PROGRESS_INTERVAL=$((ITERATIONS / 10))
+      if [ $((i % PROGRESS_INTERVAL)) -eq 0 ] || [ $i -eq $ITERATIONS ]; then
+        PROGRESS=$((i * 100 / ITERATIONS))
+        echo "  Progress: $PROGRESS% ($i/$ITERATIONS iterations)"
+      fi
+    else
+      # For very small iteration counts, show each iteration
       PROGRESS=$((i * 100 / ITERATIONS))
       echo "  Progress: $PROGRESS% ($i/$ITERATIONS iterations)"
     fi
