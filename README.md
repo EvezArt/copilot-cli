@@ -122,6 +122,123 @@ Each time you submit a prompt to GitHub Copilot CLI, your monthly quota of premi
 
 For more information about how to use the GitHub Copilot CLI, see [our official documentation](https://docs.github.com/copilot/concepts/agents/about-copilot-cli).
 
+## 🔬 Temporal Experiments (Simulation)
+
+The GitHub Copilot CLI repository includes a lightweight helper script for running temporal experiment simulations. This tool provides a deterministic, reproducible CLI interface for exploring time-symmetric computational models in a classical context.
+
+### What is it?
+
+The `temporal.sh` script is a research-oriented tool that allows you to run temporal experiment stubs with configurable parameters. It generates structured output based on a seed value, making experiments reproducible and suitable for educational and research purposes.
+
+### Installation and Location
+
+The `temporal.sh` helper script is available in the GitHub Copilot CLI repository:
+
+**For users who installed via package managers** (winget, brew, npm):
+```bash
+# Download the script from the repository (after PR is merged to main)
+curl -fsSL https://raw.githubusercontent.com/github/copilot-cli/main/temporal.sh -o temporal.sh
+chmod +x temporal.sh
+```
+
+**For users who cloned the repository**:
+The script is located in the repository root directory and can be run directly.
+
+### Usage
+
+```bash
+./temporal.sh [OPTIONS]
+```
+
+**Available Options:**
+- `--seed SEED` - Set the random seed for deterministic results (integer)
+- `--iterations N` - Number of iterations to run (default: 100)
+- `--constraint CONST` - Apply a constraint to the simulation (string)
+- `--verbose` - Enable verbose output with progress indicators
+- `--version` - Show version information
+- `--help` - Show help message
+
+**Examples:**
+
+Basic run with auto-generated seed:
+```bash
+./temporal.sh
+```
+
+Deterministic run with specific seed:
+```bash
+./temporal.sh --seed 42 --iterations 500
+```
+
+Run with constraint and verbose output:
+```bash
+./temporal.sh --seed 12345 --iterations 1000 --constraint "bounded" --verbose
+```
+
+### Expected Output
+
+The script produces structured output including:
+- Configuration summary (seed, iterations, constraints)
+- Simulation progress (in verbose mode)
+- Results summary with success rate and convergence scores
+- Time-symmetric properties (forward consistency and backward correlation)
+
+Example output:
+```
+======================================================================
+  Temporal Experiment (Simulation) - Classical Stub
+======================================================================
+
+Configuration:
+  Seed:        42
+  Iterations:  100
+  Constraint:  none
+
+Running simulation...
+
+======================================================================
+  Simulation Results
+======================================================================
+
+Summary:
+  Total iterations:     100
+  Successful:           63
+  Failed:               37
+  Success rate:         63.00%
+  Convergence score:    63
+
+Time-symmetric properties:
+  Forward consistency:  0.500
+  Backward correlation: 0.900
+
+======================================================================
+```
+
+### Reproducibility
+
+The script is fully deterministic when using the same seed value. This means:
+- Same seed → Same results every time
+- Perfect for reproducible research and experiments
+- Suitable for educational demonstrations and testing
+
+### Important: Ethics and Safety Disclaimer
+
+**⚠️ CLASSICAL SIMULATION ONLY**
+
+This tool is a **classical computational simulation** and does NOT:
+- Perform actual temporal manipulation
+- Achieve physical retrocausality
+- Interact with quantum systems
+- Modify spacetime or physical reality
+
+The temporal experiment helper is designed exclusively for:
+- Research and educational purposes
+- Exploring time-symmetric computational models theoretically
+- Demonstrating deterministic simulation principles
+- Testing classical algorithms in a controlled environment
+
+All results are purely computational and based on deterministic pseudo-random number generation. The script provides a safe, reproducible way to experiment with time-symmetric concepts without any physical implications.
+
 ## 📢 Feedback and Participation
 
 We're excited to have you join us early in the Copilot CLI journey.
